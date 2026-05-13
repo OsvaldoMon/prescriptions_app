@@ -5,6 +5,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends openssl ca-c
 COPY package.json package-lock.json ./
 COPY apps/api/package.json apps/api/package.json
 COPY apps/web/package.json apps/web/package.json
+ENV NODE_ENV=development
 RUN npm ci --include=dev
 
 FROM node:20-bookworm-slim AS build
@@ -12,11 +13,14 @@ WORKDIR /app
 RUN apt-get update -y && apt-get install -y --no-install-recommends openssl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 COPY apps/api ./apps/api
 RUN npx prisma generate
-RUN npm run build --workspace=api
+WORKDIR /app/apps/api
+RUN npm run build
+WORKDIR /app
 
 FROM node:20-bookworm-slim AS runner
 WORKDIR /app
