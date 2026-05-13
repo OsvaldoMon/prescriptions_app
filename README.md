@@ -186,6 +186,62 @@ Plantillas de producción: `.env.production.example` y `apps/web/.env.production
 
 - **Seguridad:** Helmet, CORS, rate limiting básico y validación estricta de DTOs.
 
+## Despliegue
+
+El repositorio incluye `Dockerfile`, `render.yaml`, `railway.toml` y `apps/web/vercel.json`.
+
+### 1. Base de datos y API en Render
+
+1. Crea un Blueprint desde `render.yaml` o un Web Service con Docker.
+
+2. Crea la base PostgreSQL y vincula `DATABASE_URL`.
+
+3. Define `FRONTEND_URL` con la URL final de Vercel.
+
+4. Genera secretos JWT seguros.
+
+5. Tras el primer deploy, ejecuta el seed una sola vez:
+
+```bash
+
+npm run db:seed
+
+```
+
+En Render puedes usar un job manual o la shell del servicio con `DATABASE_URL` configurada.
+
+### 2. API en Railway
+
+1. Crea un proyecto desde el repositorio.
+
+2. Añade un plugin PostgreSQL y expón `DATABASE_URL` al servicio API.
+
+3. Railway usará `railway.toml` y el `Dockerfile`.
+
+4. Configura `FRONTEND_URL`, `JWT_ACCESS_SECRET` y `JWT_REFRESH_SECRET`.
+
+5. Ejecuta el seed una vez tras la primera migración.
+
+### 3. Frontend en Vercel
+
+1. Importa el repositorio.
+
+2. Establece **Root Directory** en `apps/web`.
+
+3. Configura `NEXT_PUBLIC_API_URL` con la URL pública de la API.
+
+4. Despliega. Vercel usará `apps/web/vercel.json` para instalar dependencias desde la raíz del monorepo.
+
+### 4. Verificación post-deploy
+
+1. Abre `/health` en la API.
+
+2. Revisa `/docs`.
+
+3. Inicia sesión en el frontend con las cuentas del seed.
+
+4. Confirma login, listados, consumo de prescripción y descarga de PDF.
+
 ## Colección Postman
 
 Importa `docs/postman/prescriptions.postman_collection.json`. Actualiza `baseUrl` con la URL pública de la API. La colección incluye login y guarda `accessToken` en variables de colección para las rutas protegidas.
