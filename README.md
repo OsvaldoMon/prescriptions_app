@@ -100,25 +100,13 @@ Sustituye estos valores por las URLs reales de tu entorno al publicar:
 
 |---|---|
 
-| Frontend (Vercel) | `https://prescriptions-web.vercel.app` |
+| Frontend  | `[prescriptions-web](https://prescriptions-app-web.vercel.app/)` |
 
-| API (Render/Railway) | `https://prescriptions-api.onrender.com` |
+| API  | `[prescriptions-api](https://prescriptions-api-production.up.railway.app)` |
 
-| Swagger | `https://prescriptions-api.onrender.com/docs` |
+| Swagger | `[prescriptions-docs](https://prescriptions-api-production.up.railway.app/docs)` |
 
-| Healthcheck | `https://prescriptions-api.onrender.com/health` |
-
-## Cuentas de prueba (seed)
-
-| Rol | Email | Contraseña |
-
-|---|---|---|
-
-| Admin | `admin@test.com` | `admin123` |
-
-| Médico | `dr@test.com` | `dr123` |
-
-| Paciente | `patient@test.com` | `patient123` |
+| Healthcheck | `[https://prescriptions-api.onrender.com](https://prescriptions-api-production.up.railway.app/health)` |
 
 ## Scripts útiles
 
