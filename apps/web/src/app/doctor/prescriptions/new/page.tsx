@@ -26,7 +26,7 @@ const emptyItem = (): ItemForm => ({
 
 export default function NewPrescriptionPage() {
   const router = useRouter();
-  const [patientEmail, setPatientEmail] = useState('patient@test.com');
+  const [patientEmail, setPatientEmail] = useState('');
   const [notes, setNotes] = useState('');
   const [items, setItems] = useState<ItemForm[]>([emptyItem()]);
   const [loading, setLoading] = useState(false);
